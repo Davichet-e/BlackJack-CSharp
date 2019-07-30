@@ -43,6 +43,26 @@ namespace Cards
 
         public Deck()
         {
+            InitializeDeck();
+        }
+        public IList<Card> GetInitialCards()
+        {
+            Card[] initialCards = { DealCard(), DealCard() };
+            return new List<Card>(initialCards);
+        }
+
+        public Card DealCard()
+        {
+            if (_deck.Count == 0)
+                InitializeDeck();
+
+            Card card = _deck[0];
+            _deck.RemoveAt(0);
+            return card;
+        }
+
+        private void InitializeDeck()
+        {
             foreach (string suit in suits)
             {
                 foreach (KeyValuePair<string, int> entry in Cards)
@@ -53,20 +73,6 @@ namespace Cards
                 }
             }
             Shuffle(_deck);
-        }
-        public IList<Card> GetInitialCards()
-        {
-            Card[] initialCards = { _deck[0], _deck[1] };
-            _deck.RemoveAt(0);
-            _deck.RemoveAt(1);
-            return new List<Card>(initialCards);
-        }
-
-        public Card DealCard()
-        {
-            Card card = _deck[0];
-            _deck.RemoveAt(0);
-            return card;
         }
 
 

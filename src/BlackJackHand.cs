@@ -66,7 +66,7 @@ public class BlackJackHand
         CheckAcePoints();
     }
 
-    public override string ToString() => String.Join(", ", _cards);
+    public override string ToString() => string.Join(", ", _cards);
 
     public static int CalculatePoints(IList<Card> cards)
     {
