@@ -9,8 +9,8 @@ namespace Cards
         public readonly string Name;
         public readonly string Suit;
         public readonly int Value;
-        public Card(string name, string suit, int value)
-            => (Name, Suit, Value) = (name, suit, value);
+        public Card(string name, string suit, int value) =>
+            (Name, Suit, Value) = (name, suit, value);
 
         public override String ToString() => $"{this.Name} of {this.Suit}";
 
@@ -25,20 +25,21 @@ namespace Cards
 
 
         public static readonly string[] suits = { "HEARTS", "DIAMONDS", "CLUBS", "PIKES" };
-        public static readonly Dictionary<string, int> Cards = new Dictionary<string, int>() {
-            { "ACE", 11 },
-            { "TWO", 2 },
-            { "THREE", 3 },
-            { "FOUR", 4 },
-            { "FIVE", 5 },
-            { "SIX", 6 },
-            { "SEVEN", 7 },
-            { "EIGHT", 8 },
-            { "NINE", 9 },
-            { "TEN", 10 },
-            { "JACK", 10 },
-            { "QUEEN", 10 },
-            { "KING", 10 }
+        public static readonly IDictionary<string, int> Cards = new Dictionary<string, int>()
+        {
+            ["ACE"] = 11,
+            ["TWO"] = 2,
+            ["THREE"] = 3,
+            ["FOUR"] = 4,
+            ["FIVE"] = 5,
+            ["SIX"] = 6,
+            ["SEVEN"] = 7,
+            ["EIGHT"] = 8,
+            ["NINE"] = 9,
+            ["TEN"] = 10,
+            ["JACK"] = 10,
+            ["QUEEN"] = 10,
+            ["KING"] = 10
         };
 
         public Deck()
