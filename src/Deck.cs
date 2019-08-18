@@ -12,7 +12,7 @@ namespace Cards
         public Card(string name, string suit, int value) =>
             (Name, Suit, Value) = (name, suit, value);
 
-        public override String ToString() => $"{this.Name} of {this.Suit}";
+        public override string ToString() => $"{this.Name} of {this.Suit}";
 
         public int CompareTo(Card card) => this.Value.CompareTo(card.Value);
 
@@ -46,6 +46,7 @@ namespace Cards
         {
             InitializeDeck();
         }
+
         public IList<Card> GetInitialCards()
         {
             Card[] initialCards = { DealCard(), DealCard() };
