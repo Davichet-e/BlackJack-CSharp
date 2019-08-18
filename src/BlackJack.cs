@@ -8,8 +8,8 @@ namespace Main
 
     public class BlackJack
     {
-        private static IList<BlackJackPlayer> _players = new List<BlackJackPlayer>();
-        private static BlackJackHand _dealerHand = new BlackJackHand();
+        private static IList<Player> _players = new List<Player>();
+        private static readonly Hand _dealerHand = new Hand();
 
         public static void Main(string[] args)
         {
@@ -19,7 +19,7 @@ namespace Main
                 //TODO console.wr(game started)
                 Console.WriteLine($"\nThe first card of the dealer is {_dealerHand.Cards[0]}");
 
-                foreach (BlackJackPlayer player in _players)
+                foreach (Player player in _players)
                 {
                     PlayerTurn(player);
                 }
@@ -83,7 +83,7 @@ namespace Main
 
                         else
                         {
-                            _players.Add(new BlackJackPlayer(name, initialMoney));
+                            _players.Add(new Player(name, initialMoney));
                             break;
                         }
                     }
@@ -95,7 +95,7 @@ namespace Main
             }
         }
 
-        private static void AskPlayerBet(BlackJackPlayer player)
+        private static void AskPlayerBet(Player player)
         {
             while (true)
             {
@@ -123,7 +123,7 @@ namespace Main
             }
         }
 
-        private static bool PlayerWinOrLose(BlackJackPlayer player)
+        private static bool PlayerWinOrLose(Player player)
         {
             bool result = false;
 
@@ -156,7 +156,7 @@ namespace Main
             return CheckIfYes(decision);
         }
 
-        private static void PlayerTurn(BlackJackPlayer player)
+        private static void PlayerTurn(Player player)
         {
             //TODO console.wr(player turn)
             Console.WriteLine($"{player}, your actual money is {player.ActualMoney} Euros\n");
@@ -215,7 +215,7 @@ namespace Main
         {
             // TODO Console.WriteLine(Results)
             int dealerPoints = _dealerHand.Points;
-            foreach (BlackJackPlayer player in _players)
+            foreach (Player player in _players)
             {
                 int playerPoints = player.Hand.Points;
                 if (playerPoints == 21 || playerPoints > dealerPoints)
@@ -234,7 +234,7 @@ namespace Main
             Thread.Sleep(1000);
         }
 
-        private static bool AskIfNextGame(BlackJackPlayer player)
+        private static bool AskIfNextGame(Player player)
         {
             bool playerNextGame = false;
             string finalBalance = $"{player.ActualMoney - player.InitialMoney} Euros";
@@ -254,7 +254,7 @@ namespace Main
                     playerNextGame = true;
                 }
                 else
-                    Console.WriteLine($"Thanks for playing, {player}  your final balance is {finalBalance}\n");
+                    Console.WriteLine($"Thanks for playing {player}, your final balance is {finalBalance}\n");
             }
             else
                 Console.WriteLine($"{player}, you have lost all your money. Thanks for playing\n");

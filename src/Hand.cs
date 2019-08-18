@@ -1,27 +1,29 @@
-using System;
 using System.Collections.Generic;
 using Cards;
+using System.Linq;
 
-public class BlackJackHand
+public class Hand
 {
-    readonly static Deck Deck = new Deck();
-    private IList<Card> _cards;
-    private int _points;
+    public readonly static Deck Deck = new Deck();
+
+    public readonly IList<Card> Cards = Deck.GetInitialCards();
+
     private int _aces;
 
-    public BlackJackHand()
+    public Hand()
     {
         InitializeAttributes();
     }
 
-    public int Points { get => _points; }
-    public IList<Card> Cards { get => _cards; }
+    public int Points
+    {
+        get; private set;
+    }
 
     public void InitializeAttributes()
     {
-        _cards = Deck.GetInitialCards();
-        _points = CalculatePoints(_cards);
-        foreach (Card card in _cards)
+        Points = CalculatePoints(Cards);
+        foreach (Card card in Cards)
         {
             CheckIfAce(card);
         }
@@ -33,7 +35,7 @@ public class BlackJackHand
     {
         Card card = Deck.DealCard();
         CheckIfAce(card);
-        _cards.Add(card);
+        Cards.Add(card);
         updatePoints(card);
         CheckIfLost();
     }
@@ -47,35 +49,30 @@ public class BlackJackHand
 
     private void CheckAcePoints()
     {
-        while (_points > 21 && _aces > 0)
+        while (Points > 21 && _aces > 0)
         {
-            _points -= 10;
+            Points -= 10;
             _aces--;
         }
     }
 
     private void CheckIfLost()
     {
-        if (_points > 21)
-            _points = 0;
+        if (Points > 21)
+            Points = 0;
     }
 
     private void updatePoints(Card card)
     {
-        _points += card.Value;
+        Points += card.Value;
         CheckAcePoints();
     }
 
-    public override string ToString() => string.Join(", ", _cards);
+    public override string ToString() => string.Join(", ", Cards);
 
     public static int CalculatePoints(IList<Card> cards)
     {
-        int res = 0;
-        foreach (Card card in cards)
-        {
-            res += card.Value;
-        }
-        return res;
+        return cards.Aggregate(0, (acc, card) => acc + card.Value);
     }
 
 
