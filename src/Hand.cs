@@ -6,7 +6,7 @@ public class Hand
 {
     public readonly static Deck Deck = new Deck();
 
-    public readonly IList<Card> Cards = Deck.GetInitialCards();
+    public IList<Card> Cards;
 
     private int _aces;
 
@@ -22,6 +22,7 @@ public class Hand
 
     public void InitializeAttributes()
     {
+        Cards = Deck.GetInitialCards();
         Points = CalculatePoints(Cards);
         foreach (Card card in Cards)
         {
