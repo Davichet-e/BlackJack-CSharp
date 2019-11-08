@@ -7,10 +7,27 @@ namespace Cards
     public class Card : IComparable<Card>
     {
         public readonly string Name;
-        public readonly string Suit;
-        public readonly int Value;
-        public Card(string name, string suit, int value) =>
-            (Name, Suit, Value) = (name, suit, value);
+        public readonly char Suit;
+        public int Value
+        {
+            get =>
+                Name switch
+                {
+                    "ACE" => 11,
+                    "TWO" => 2,
+                    "THREE" => 3,
+                    "FOUR" => 4,
+                    "FIVE" => 5,
+                    "SIX" => 6,
+                    "SEVEN" => 7,
+                    "EIGHT" => 8,
+                    "NINE" => 9,
+                    _ => 10
+                };
+
+        }
+        public Card(string name, char suit) =>
+            (Name, Suit) = (name, suit);
 
         public override string ToString() => $"{this.Name} of {this.Suit}";
 
@@ -21,30 +38,27 @@ namespace Cards
     public class Deck
     {
 
-        private IList<Card> _deck = new List<Card>(52);
+        public static readonly char[] suits = { '♥', '♦', '♣', '♠' };
+        public static readonly string[] Cards =
+        { "ACE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE" };
+        private IList<Card> _deck;
 
-
-        public static readonly string[] suits = { "HEARTS", "DIAMONDS", "CLUBS", "PIKES" };
-        public static readonly IDictionary<string, int> Cards = new Dictionary<string, int>()
+        public Deck(int nDecks)
         {
-            ["ACE"] = 11,
-            ["TWO"] = 2,
-            ["THREE"] = 3,
-            ["FOUR"] = 4,
-            ["FIVE"] = 5,
-            ["SIX"] = 6,
-            ["SEVEN"] = 7,
-            ["EIGHT"] = 8,
-            ["NINE"] = 9,
-            ["TEN"] = 10,
-            ["JACK"] = 10,
-            ["QUEEN"] = 10,
-            ["KING"] = 10
-        };
+            _deck = new List<Card>(52 * nDecks);
+            for (int i = 0; i < nDecks; i++)
+            {
+                foreach (char suit in suits)
+                {
+                    foreach (string name in Cards)
+                    {
 
-        public Deck()
-        {
-            InitializeDeck();
+                        _deck.Add(new Card(name, suit));
+
+                    }
+                }
+            }
+            Shuffle(_deck);
         }
 
         public IList<Card> GetInitialCards()
@@ -55,27 +69,11 @@ namespace Cards
 
         public Card DealCard()
         {
-            if (_deck.Count == 0)
-                InitializeDeck();
-
             Card card = _deck[0];
             _deck.RemoveAt(0);
             return card;
         }
 
-        private void InitializeDeck()
-        {
-            foreach (string suit in suits)
-            {
-                foreach (KeyValuePair<string, int> entry in Cards)
-                {
-
-                    _deck.Add(new Card(entry.Key, suit, entry.Value));
-
-                }
-            }
-            Shuffle(_deck);
-        }
 
 
         private static void Shuffle<T>(IList<T> items)
@@ -87,9 +85,7 @@ namespace Cards
             for (int i = 0; i < items.Count - 1; i++)
             {
                 int j = rand.Next(i, items.Count);
-                T temp = items[i];
-                items[i] = items[j];
-                items[j] = temp;
+                (items[i], items[j]) = (items[j], items[i]);
             }
         }
     }
