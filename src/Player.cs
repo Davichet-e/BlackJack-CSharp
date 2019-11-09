@@ -1,5 +1,3 @@
-#nullable enable
-
 using System.Collections.Generic;
 
 using Hands;
@@ -15,6 +13,7 @@ public class Player
     {
         get; set;
     }
+    
     public int ActualMoney
     {
         get; set;
